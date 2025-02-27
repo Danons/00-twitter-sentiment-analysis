@@ -1,74 +1,74 @@
-# Sentiment Analysis on Tweets
+# Analisis Sentimen pada Tweet
 
-![Status badge](https://img.shields.io/badge/Status-Archived-important)
+![Lencana status](https://img.shields.io/badge/Status-Archived-important)
 
-**Update**(21 Sept. 2018): I don't actively maintain this repository. This work was done for a course project and the dataset cannot be released because I don't own the copyright. However, everything in this repository can be easily modified to work with other datasets. I recommend reading the [sloppily written project report](https://github.com/abdulfatir/twitter-sentiment-analysis/tree/master/docs/report.pdf) for this project which can be found in `docs/`.
+**Pembaruan** (21 September 2018): Saya tidak secara aktif mengelola repositori ini. Pekerjaan ini dilakukan untuk proyek mata kuliah dan dataset tidak dapat dirilis karena saya tidak memiliki hak cipta. Namun, semua yang ada di repositori ini dapat dengan mudah dimodifikasi untuk digunakan dengan dataset lain. Saya sarankan untuk membaca [laporan proyek yang ditulis secara asal-asalan] (https://github.com/abdulfatir/twitter-sentiment-analysis/tree/master/docs/report.pdf) untuk proyek ini yang dapat ditemukan di `docs/`.
 
-## Dataset Information
+## Informasi Dataset
 
-We use and compare various different methods for sentiment analysis on tweets (a binary classification problem). The training dataset is expected to be a csv file of type `tweet_id,sentiment,tweet` where the `tweet_id` is a unique integer identifying the tweet, `sentiment` is either `1` (positive) or `0` (negative), and `tweet` is the tweet enclosed in `""`. Similarly, the test dataset is a csv file of type `tweet_id,tweet`. Please note that csv headers are not expected and should be removed from the training and test datasets.  
+Kami menggunakan dan membandingkan berbagai metode yang berbeda untuk analisis sentimen pada tweet (masalah klasifikasi biner). Dataset pelatihan diharapkan berupa file csv bertipe `tweet_id,sentimen,tweet` di mana `tweet_id` adalah sebuah bilangan bulat unik yang mengidentifikasi tweet, `sentimen` adalah `1` (positif) atau `0` (negatif), dan `tweet` adalah tweet yang diapit oleh `“” `. Demikian pula, dataset pengujian adalah file csv bertipe `tweet_id,tweet`. Harap diperhatikan bahwa header csv tidak diharapkan dan harus dihapus dari dataset pelatihan dan pengujian.  
 
-## Requirements
+Persyaratan ##
 
-There are some general library requirements for the project and some which are specific to individual methods. The general requirements are as follows.  
+Ada beberapa persyaratan pustaka umum untuk proyek ini dan beberapa persyaratan khusus untuk masing-masing metode. Persyaratan umum adalah sebagai berikut.  
 * `numpy`
 * `scikit-learn`
 * `scipy`
 * `nltk`
 
-The library requirements specific to some methods are:
-* `keras` with `TensorFlow` backend for Logistic Regression, MLP, RNN (LSTM), and CNN.
-* `xgboost` for XGBoost.
+Persyaratan pustaka khusus untuk beberapa metode adalah sebagai berikut:
+* `keras` dengan backend `TensorFlow` untuk Regresi Logistik, MLP, RNN (LSTM), dan CNN.
+* `xgboost` untuk XGBoost.
 
-**Note**: It is recommended to use Anaconda distribution of Python.
+**Catatan**: Direkomendasikan untuk menggunakan distribusi Python Anaconda.
 
-## Usage
+## Penggunaan
 
-### Preprocessing 
+## Preprocessing 
 
-1. Run `preprocess.py <raw-csv-path>` on both train and test data. This will generate a preprocessed version of the dataset.
-2. Run `stats.py <preprocessed-csv-path>` where `<preprocessed-csv-path>` is the path of csv generated from `preprocess.py`. This gives general statistical information about the dataset and will two pickle files which are the frequency distribution of unigrams and bigrams in the training dataset. 
+1. Jalankan `preprocess.py <raw-csv-path>` pada data latih dan data uji. Ini akan menghasilkan versi praproses dari dataset.
+2. Jalankan `stats.py <preprocessed-csv-path>` di mana `<preprocessed-csv-path>` adalah jalur csv yang dihasilkan dari `preprocess.py`. Ini memberikan informasi statistik umum tentang dataset dan akan menghasilkan dua file acar yang merupakan distribusi frekuensi dari unigram dan bigram dalam dataset pelatihan. 
 
-After the above steps, you should have four files in total: `<preprocessed-train-csv>`, `<preprocessed-test-csv>`, `<freqdist>`, and `<freqdist-bi>` which are preprocessed train dataset, preprocessed test dataset, frequency distribution of unigrams and frequency distribution of bigrams respectively.
+Setelah langkah-langkah di atas, Anda akan memiliki empat file secara total: `<preprocessed-train-csv>`, `<preprocessed-test-csv>`, `<freqdist>`, dan `<freqdist-bi>` yang merupakan preprocessed train dataset, preprocessed test dataset, distribusi frekuensi unigram, dan distribusi frekuensi bigram secara berurutan.
 
-For all the methods that follow, change the values of `TRAIN_PROCESSED_FILE`, `TEST_PROCESSED_FILE`, `FREQ_DIST_FILE`, and `BI_FREQ_DIST_FILE` to your own paths in the respective files. Wherever applicable, values of `USE_BIGRAMS` and `FEAT_TYPE` can be changed to obtain results using different types of features as described in report.
+Untuk semua metode berikut, ubah nilai `TRAIN_PROCESSED_FILE`, `TEST_PROCESSED_FILE`, `FREQ_DIST_FILE`, dan `BI_FREQ_DIST_FILE` ke jalur Anda sendiri di file masing-masing. Di mana pun berlaku, nilai `USE_BIGRAMS` dan `FEAT_TYPE` dapat diubah untuk mendapatkan hasil menggunakan berbagai jenis fitur seperti yang dijelaskan dalam laporan.
 
 ### Baseline
-3. Run `baseline.py`. With `TRAIN = True` it will show the accuracy results on training dataset.
+3. Jalankan `baseline.py`. Dengan `TRAIN = True` maka akan menampilkan hasil akurasi pada dataset training.
 
 ### Naive Bayes
-4. Run `naivebayes.py`. With `TRAIN = True` it will show the accuracy results on 10% validation dataset.
+4. Jalankan `naivebayes.py`. Dengan `TRAIN = True` maka akan menampilkan hasil akurasi pada dataset validasi 10%.
 
-### Maximum Entropy
-5. Run `logistic.py` to run logistic regression model OR run `maxent-nltk.py <>` to run MaxEnt model of NLTK. With `TRAIN = True` it will show the accuracy results on 10% validation dataset.
+### Entropi Maksimum
+5. Jalankan `logistic.py` untuk menjalankan model regresi logistik ATAU jalankan `maxent-nltk.py <>` untuk menjalankan model MaxEnt dari NLTK. Dengan `TRAIN = True` maka akan menampilkan hasil akurasi pada 10% dataset validasi.
 
-### Decision Tree
-6. Run `decisiontree.py`. With `TRAIN = True` it will show the accuracy results on 10% validation dataset.
+### Pohon Keputusan
+6. Jalankan `decisiontree.py`. Dengan `TRAIN = True` maka akan muncul hasil akurasi pada 10% dataset validasi.
 
 ### Random Forest
-7. Run `randomforest.py`. With `TRAIN = True` it will show the accuracy results on 10% validation dataset.
+7. Jalankan `randomforest.py`. Dengan `TRAIN = True` maka akan menampilkan hasil akurasi pada 10% dataset validasi.
 
 ### XGBoost
-8. Run `xgboost.py`. With `TRAIN = True` it will show the accuracy results on 10% validation dataset.
+8. Jalankan `xgboost.py`. Dengan `TRAIN = True` maka akan menampilkan hasil akurasi pada 10% dataset validasi.
 
 ### SVM
-9. Run `svm.py`. With `TRAIN = True` it will show the accuracy results on 10% validation dataset.
+9. Jalankan `svm.py`. Dengan `TRAIN = True` maka akan menampilkan hasil akurasi pada 10% dataset validasi.
 
 ### Multi-Layer Perceptron
-10. Run `neuralnet.py`. Will validate using 10% data and save the best model to `best_mlp_model.h5`.
+10. Jalankan `neuralnet.py`. Akan melakukan validasi menggunakan 10% data dan menyimpan model terbaik ke `best_mlp_model.h5`.
 
-### Reccurent Neural Networks
-11. Run `lstm.py`. Will validate using 10% data and save models for each epock in `./models/`. (Please make sure this directory exists before running `lstm.py`).
+### Jaringan Syaraf Tiruan Berulang
+11. Jalankan `lstm.py`. Akan memvalidasi menggunakan 10% data dan menyimpan model untuk setiap epock di `./models/`. (Pastikan direktori ini sudah ada sebelum menjalankan `lstm.py`).
 
-### Convolutional Neural Networks
-12. Run `cnn.py`. This will run the 4-Conv-NN (4 conv layers neural network) model as described in the report. To run other versions of CNN, just comment or remove the lines where Conv layers are added. Will validate using 10% data and save models for each epoch in `./models/`. (Please make sure this directory exists before running `cnn.py`). 
+### Jaringan Syaraf Tiruan Konvolusional
+12. Jalankan `cnn.py`. Ini akan menjalankan model 4-Conv-NN (4 conv layers neural network) seperti yang dijelaskan dalam laporan. Untuk menjalankan versi lain dari CNN, cukup beri komentar atau hapus baris di mana lapisan Conv ditambahkan. Akan memvalidasi menggunakan 10% data dan menyimpan model untuk setiap epoch di `./models/`. (Pastikan direktori ini sudah ada sebelum menjalankan `cnn.py`). 
 
-### Majority Vote Ensemble
-13. To extract penultimate layer features for the training dataset, run `extract-cnn-feats.py <saved-model>`. This will generate 3 files, `train-feats.npy`, `train-labels.txt` and `test-feats.npy`.
-14. Run `cnn-feats-svm.py` which uses files from the previous step to perform SVM classification on features extracted from CNN model.
-15. Place all prediction CSV files for which you want to take majority vote in `./results/` and run `majority-voting.py`. This will generate `majority-voting.csv`.
+### Ensemble Suara Mayoritas
+13. Untuk mengekstrak fitur lapisan kedua dari belakang untuk set data pelatihan, jalankan `extract-cnn-feats.py <saved-model>`. Ini akan menghasilkan 3 file, `train-feats.npy`, `train-labels.txt` dan `test-feats.npy`.
+14. Jalankan `cnn-feats-svm.py` yang menggunakan file-file dari langkah sebelumnya untuk melakukan klasifikasi SVM pada fitur-fitur yang diekstrak dari model CNN.
+15. Letakkan semua file CSV prediksi yang ingin Anda ambil suara mayoritasnya di `./results/` dan jalankan `mayoritas-voting.py`. Ini akan menghasilkan `mayoritas-pemungutan suara.csv`.
 
-## Information about other files
+## Informasi tentang berkas-berkas lain
 
 * `dataset/positive-words.txt`: List of positive words.
 * `dataset/negative-words.txt`: List of negative words.
